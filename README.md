@@ -6,13 +6,49 @@ A robust and flexible Data Access Layer (DAL) built with FluentNHibernate, provi
 
 - **Generic Repository Pattern**: Complete CRUD operations with async/await support
 - **Custom Repository Support**: Easily extend base functionality for entity-specific operations
+- **Code-First Approach**: Start with C# classes and let the database be auto-generated
+- **Auto Mapping**: Automatic table and relationship creation from entity definitions
 - **Advanced Querying**: Support for custom SQL queries, pagination, and complex filtering
 - **Batch Operations**: Efficient bulk insert, update, and delete operations
 - **Schema Management**: Automated schema creation, updates, and validation
-- **Migration Support**: Database versioning and migration capabilities
+- **Migration Support**: Database versioning and migration capabilities for keeping database in sync with code changes
 - **Transaction Support**: Built-in transaction handling and management
 - **Fluent Configuration**: Easy-to-use fluent API for entity mappings
 - **Cross-Database Support**: Works with multiple database providers (PostgreSQL, SQL Server, MySQL, etc.)
+
+## 🎯 Development Approaches
+
+FluentNHibernate.DAL supports both **Code-First** and **Database-First** development approaches, giving you flexibility to choose the workflow that best fits your project needs.
+
+### Code-First Approach
+
+Start with C# entities and auto-generate database schema:
+
+1. Define entity classes and mappings
+2. Configure session factory with schema generation
+3. Database tables are created automatically
+
+**Benefits**: Rapid prototyping, version-controlled schema, consistent across environments.
+
+📖 **Code-First Guides**: [Entity Mappings](docs/Entities_and_Mappings.md) | [Schema Generation](docs/SchemaExport.md)
+
+### Database-First Approach
+
+Work with existing databases by mapping to established schema:
+
+1. Connect to existing database
+2. Create entity classes matching database structure
+3. Define mappings that align with current schema
+
+**Benefits**: Integration with legacy systems, preserve existing data, work with established database designs.
+
+📖 **Database-First Guides**: [Entity Mappings](docs/Entities_and_Mappings.md) | [Custom Repositories](docs/Custom_Repository.md)
+
+📖 **Learn More**:
+
+- [Entity Definitions & Relationships](docs/Entities_and_Mappings.md) - Complete guide for both approaches
+- [Schema Generation Options](docs/SchemaExport.md) - Code-first schema management
+- [Database Migration Strategies](docs/Migrations.md) - Evolution strategies for both approaches
 
 ## 📋 Prerequisites
 
@@ -45,7 +81,7 @@ dotnet add package NHibernate
 
 ## 🔧 Quick Start
 
-### 1. Define Your Entity
+### 1. Define Entity & Mapping
 
 ```csharp
 public class User
@@ -55,11 +91,7 @@ public class User
     public virtual string Email { get; set; }
     public virtual bool IsActive { get; set; }
 }
-```
 
-### 2. Create Entity Mapping
-
-```csharp
 public class UserMap : ClassMap<User>
 {
     public UserMap()
@@ -73,121 +105,77 @@ public class UserMap : ClassMap<User>
 }
 ```
 
-### 3. Configure Session Factory
+📖 **Learn More**: [Entity Definitions & Complex Relationships](docs/Entities_and_Mappings.md)
+
+### 2. Configure Session Factory
 
 ```csharp
 public static ISessionFactory CreateSessionFactory()
 {
     return Fluently.Configure()
-        .Database(PostgreSQLConfiguration.Standard
-            .ConnectionString("your-connection-string"))
+        .Database(PostgreSQLConfiguration.Standard.ConnectionString("your-connection-string"))
         .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
+        .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, true)) // Auto-create tables
         .BuildSessionFactory();
 }
 ```
 
-### 4. Use Repository
+📖 **Learn More**: [Schema Generation & Management](docs/SchemaExport.md) | [Migration Strategies](docs/Migrations.md)
+
+### 3. Use Repository
 
 ```csharp
-// Basic operations
 var repository = new NHibernateRepository<User>(sessionFactory);
-
-// Insert
 await repository.InsertAsync(new User { Name = "John Doe", Email = "john@example.com" });
-
-// Get by ID
 var user = await repository.GetAsync(1);
-
-// Update
-user.IsActive = true;
-await repository.UpdateAsync(user);
-
-// Delete
-await repository.DeleteAsync(user);
-
-// Custom queries
-var activeUsers = await repository.GetByAsync(u => u.IsActive == true);
 ```
+
+📖 **Learn More**: [Custom Repository Patterns](docs/Custom_Repository.md)
+
+📖 **Detailed Guides**: [Entity Mappings](docs/Entities_and_Mappings.md) | [Schema Management](docs/SchemaExport.md) | [Custom Repositories](docs/Custom_Repository.md)
 
 ## 📚 Documentation
 
-### Core Documentation
-
-- **[Custom Repository](docs/Custom_Repository.md)** - Learn how to create custom repositories with entity-specific operations
-- **[Entities and Mappings](docs/Entities_and_Mappings.md)** - Complete guide to defining entities and their relationships
-- **[Migrations](docs/Migrations.md)** - Database migration strategies and implementation
-- **[Schema Export](docs/SchemaExport.md)** - Schema management and database structure updates
-
-### Key Topics Covered
-
-- Repository pattern implementation
-- One-to-many and many-to-many relationships
-- Complex entity mappings
-- Database migration strategies
-- Transaction management
-- Batch operations
-- Custom SQL queries
-- Pagination and filtering
+| Guide                                                    | Description                                                 |
+| -------------------------------------------------------- | ----------------------------------------------------------- |
+| **[Custom Repository](docs/Custom_Repository.md)**       | Entity-specific operations and advanced repository patterns |
+| **[Entities & Mappings](docs/Entities_and_Mappings.md)** | Define entities, relationships, and complex mappings        |
+| **[Migrations](docs/Migrations.md)**                     | Database versioning and schema evolution strategies         |
+| **[Schema Export](docs/SchemaExport.md)**                | Automated schema generation and management                  |
 
 ## 🎯 Usage Examples
 
-### Basic CRUD Operations
+### Basic Operations
 
 ```csharp
-// Create repository instance
-var userRepository = new NHibernateRepository<User>(sessionFactory);
+var repository = new NHibernateRepository<User>(sessionFactory);
 
-// Insert single entity
-await userRepository.InsertAsync(new User
-{
-    Name = "Alice Johnson",
-    Email = "alice@example.com"
-});
+// CRUD operations
+await repository.InsertAsync(new User { Name = "Alice", Email = "alice@example.com" });
+var user = await repository.GetAsync(1);
+await repository.UpdateAsync(user);
+await repository.DeleteAsync(user);
 
-// Insert multiple entities
-var users = new List<User>
-{
-    new User { Name = "Bob Smith", Email = "bob@example.com" },
-    new User { Name = "Carol Davis", Email = "carol@example.com" }
-};
-await userRepository.InsertAsync(users);
-
-// Query with filtering
-var activeUsers = await userRepository.GetByAsync(u => u.IsActive);
-
-// Pagination
-var pagedUsers = await userRepository.GetBySQLAsync(
-    "SELECT * FROM Users WHERE IsActive = :active",
-    new Dictionary<string, object> { { "active", true } },
-    skip: 0,
-    take: 10
-);
+// Filtering & pagination
+var activeUsers = await repository.GetByAsync(u => u.IsActive);
+var pagedUsers = await repository.GetBySQLAsync("SELECT * FROM Users WHERE IsActive = :active",
+    new Dictionary<string, object> { { "active", true } }, 0, 10);
 ```
 
-### Custom Repository Implementation
+### Custom Repository
 
 ```csharp
-public interface IUserRepository : IRepository<User>
-{
-    Task<User> GetByEmailAsync(string email);
-    Task<int> GetActiveUserCountAsync();
-}
-
 public class UserRepository : NHibernateRepository<User>, IUserRepository
 {
-    public UserRepository(ISessionFactory sessionFactory) : base(sessionFactory) { }
+    public async Task<User> GetByEmailAsync(string email) =>
+        await GetByAsync(u => u.Email == email);
 
-    public async Task<User> GetByEmailAsync(string email)
-    {
-        return await GetByAsync(u => u.Email == email);
-    }
-
-    public async Task<int> GetActiveUserCountAsync()
-    {
-        return await GetCountByAsync(u => u.IsActive);
-    }
+    public async Task<int> GetActiveUserCountAsync() =>
+        await GetCountByAsync(u => u.IsActive);
 }
 ```
+
+📖 **More Examples**: [Custom Repository Guide](docs/Custom_Repository.md#usage-in-a-service) | [Entity Relationship Examples](docs/Entities_and_Mappings.md)
 
 ## 🏗️ Architecture
 
@@ -230,14 +218,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - Create an [Issue](../../issues) for bug reports or feature requests
-- Check the [Documentation](docs/) for detailed guides
-- Review [Examples](docs/Custom_Repository.md#usage-in-a-service) for implementation patterns
-
-## 🔖 Version History
-
-- **v1.0.0** - Initial release with core repository functionality
-- **v1.1.0** - Added batch operations and custom SQL support
-- **v1.2.0** - Enhanced migration support and schema management
+- Check our [Documentation](docs/) for detailed guides
+- Review [Custom Repository Examples](docs/Custom_Repository.md#usage-in-a-service)
+- Learn about [Database Migrations](docs/Migrations.md) for production deployments
 
 ---
 
