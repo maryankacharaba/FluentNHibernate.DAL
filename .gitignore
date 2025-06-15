@@ -17,3 +17,9 @@ Shopy.Data/data/CSV/Output/
 .DS_Store
 *Shopy.sln.DotSettings.user
 */Shopy.sln.DotSettings.user
+
+# NuGet package artifacts
+nupkg/
+*.nupkg
+*.snupkg
+tmp.md

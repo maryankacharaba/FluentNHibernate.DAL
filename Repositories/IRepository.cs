@@ -124,7 +124,7 @@ public interface IRepository<T> where T : class
     /// var users = await repository.GetBySQLAsync(sql, parameters, 0, 10); // Retrieves the first 10 users.
     /// </code>
     /// </example>
-    Task<IList<T>> GetBySQLAsync(string sql, IDictionary<string, object> parameters, int skip = 0, int take = int.MaxValue);
+    Task<IList<T>> GetBySQLAsync(string sql, IDictionary<string, object>? parameters, int skip = 0, int take = int.MaxValue);
 
 
     /// <summary>
@@ -145,7 +145,7 @@ public interface IRepository<T> where T : class
     /// int activeUserCount = await repository.ExecuteScalarAsync&lt;int&gt;(sql, parameters);
     /// </code>
     /// </example>
-    Task<TScalar> ExecuteScalarAsync<TScalar>(string sql, IDictionary<string, object> parameters);
+    Task<TScalar> ExecuteScalarAsync<TScalar>(string sql, IDictionary<string, object>? parameters);
 
 
     /// <summary>
@@ -161,5 +161,5 @@ public interface IRepository<T> where T : class
     /// int updatedCount = await repository.ExecuteUpdateAsync(sql, parameters);
     /// </code>
     /// </example>
-    Task<int> ExecuteNonQueryAsync(string sql, IDictionary<string, object> parameters);
+    Task<int> ExecuteNonQueryAsync(string sql, IDictionary<string, object>? parameters);
 }

@@ -23,7 +23,7 @@ public static class NhTransformers
         public object TransformTuple(object[] tuple, string[] aliases)
         {
             var expando = new ExpandoObject();
-            var dictionary = (IDictionary<string, object>)expando;
+            var dictionary = (IDictionary<string, object?>)expando;
             for (int i = 0; i < tuple.Length; i++)
             {
                 string alias = aliases[i];

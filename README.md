@@ -142,6 +142,7 @@ var user = await repository.GetAsync(1);
 | **[Entities & Mappings](docs/Entities_and_Mappings.md)** | Define entities, relationships, and complex mappings        |
 | **[Migrations](docs/Migrations.md)**                     | Database versioning and schema evolution strategies         |
 | **[Schema Export](docs/SchemaExport.md)**                | Automated schema generation and management                  |
+| **[NuGet Deployment](docs/NuGet_Deployment.md)**         | Complete guide to building and deploying NuGet packages     |
 
 ## 🎯 Usage Examples
 

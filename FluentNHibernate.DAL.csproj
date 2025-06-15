@@ -4,7 +4,40 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    
+    <!-- NuGet Package Metadata -->
+    <PackageId>FluentNHibernate.DAL</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Maryan Kacharaba</Authors>
+    <Company></Company>
+    <Description>A robust and flexible Data Access Layer (DAL) built with FluentNHibernate, providing a generic repository pattern implementation with advanced querying capabilities and comprehensive database management features.</Description>
+    <PackageTags>nhibernate;fluent-nhibernate;repository-pattern;orm;data-access-layer;dal;database;crud;async;postgresql;sqlserver;mysql</PackageTags>
+    <PackageProjectUrl>https://github.com/maryankacharaba/FluentNHibernate.DAL</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/maryankacharaba/FluentNHibernate.DAL</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright © 2024</Copyright>
+    <PackageReleaseNotes>
+      v1.0.1 - Initial release
+      - Generic Repository Pattern with async/await support
+      - Code-First and Database-First development approaches
+      - Advanced querying with custom SQL support
+      - Batch operations for efficient data processing
+      - Cross-database support (PostgreSQL, SQL Server, MySQL, etc.)
+      - Comprehensive documentation and examples
+    </PackageReleaseNotes>
   </PropertyGroup>
+
+  <!-- Include README and icon in package -->
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="docs\**\*.md" Pack="true" PackagePath="docs\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />

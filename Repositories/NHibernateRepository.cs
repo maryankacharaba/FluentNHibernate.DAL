@@ -50,16 +50,16 @@ public class NHibernateRepository<T> : IRepository<T> where T : class
         using (var session = sessionFactory.OpenSession())
         {
             var query = session.Query<T>().Where(predicate);
-            var countSql = query.ToString().Replace("select", "SELECT COUNT(*)");
+            var countSql = query.ToString()?.Replace("select", "SELECT COUNT(*)") ?? "SELECT COUNT(*) FROM " + typeof(T).Name;
 
-            return await ExecuteScalarAsync<int>(countSql, null);
+            return await ExecuteScalarAsync<int>(countSql, new Dictionary<string, object>());
         }
     }
 
 
     public async Task<IList<T>> GetBySQLAsync(
         string sql,
-        IDictionary<string, object> parameters,
+        IDictionary<string, object>? parameters,
         int skip = 0,
         int take = int.MaxValue)
     {
@@ -72,7 +72,7 @@ public class NHibernateRepository<T> : IRepository<T> where T : class
         }
     }
 
-    public async Task<int> ExecuteNonQueryAsync(string sql, IDictionary<string, object> parameters)
+    public async Task<int> ExecuteNonQueryAsync(string sql, IDictionary<string, object>? parameters)
     {
         using (var session = sessionFactory.OpenSession())
         using (var transaction = session.BeginTransaction())
@@ -87,7 +87,7 @@ public class NHibernateRepository<T> : IRepository<T> where T : class
         }
     }
 
-    public async Task<TScalar> ExecuteScalarAsync<TScalar>(string sql, IDictionary<string, object> parameters)
+    public async Task<TScalar> ExecuteScalarAsync<TScalar>(string sql, IDictionary<string, object>? parameters)
     {
         using (var session = sessionFactory.OpenSession())
         {
@@ -190,7 +190,7 @@ public class NHibernateRepository<T> : IRepository<T> where T : class
     }
 
 
-    private void SetParameters(IQuery query, IDictionary<string, object> parameters)
+    private void SetParameters(IQuery query, IDictionary<string, object>? parameters)
     {
         if (parameters != null)
         {

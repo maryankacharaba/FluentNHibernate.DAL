@@ -16,7 +16,6 @@ public static class ServiceCollectionExtensions
     {
         services.Configure<DatabaseSettings>(configuration.GetSection(sectionKey));
 
-        //services.AddSingleton<SessionFactoryHelper>();
         services.AddSingleton<SessionFactoryBuilder>(provider =>
         {
             var settings = provider.GetRequiredService<IOptions<DatabaseSettings>>();
