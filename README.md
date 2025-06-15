@@ -58,6 +58,54 @@ Work with existing databases by mapping to established schema:
 
 ## 📦 Installation
 
+[![NuGet version](https://badge.fury.io/nu/FluentNHibernate.DAL.svg)](https://badge.fury.io/nu/FluentNHibernate.DAL)
+[![NuGet](https://img.shields.io/nuget/v/FluentNHibernate.DAL.svg)](https://www.nuget.org/packages/FluentNHibernate.DAL/)
+[![Downloads](https://img.shields.io/nuget/dt/FluentNHibernate.DAL.svg)](https://www.nuget.org/packages/FluentNHibernate.DAL/)
+
+FluentNHibernate.DAL is available as a NuGet package and targets **.NET 8.0** and higher.
+
+### Package Manager Console (Visual Studio)
+
+```powershell
+Install-Package FluentNHibernate.DAL
+```
+
+### .NET CLI
+
+```bash
+dotnet add package FluentNHibernate.DAL
+```
+
+### PackageReference (Project File)
+
+```xml
+<PackageReference Include="FluentNHibernate.DAL" Version="1.0.1" />
+```
+
+### Central Package Management
+
+Add to your `Directory.Packages.props`:
+
+```xml
+<PackageVersion Include="FluentNHibernate.DAL" Version="1.0.1" />
+```
+
+Then in your project file:
+
+```xml
+<PackageReference Include="FluentNHibernate.DAL" />
+```
+
+### Paket CLI
+
+```bash
+paket add FluentNHibernate.DAL
+```
+
+## 📋 Dependencies
+
+FluentNHibernate.DAL automatically includes all required dependencies. For manual installation of core dependencies:
+
 ### NuGet Package Manager
 
 ```bash
@@ -75,8 +123,8 @@ dotnet add package NHibernate
 ### PackageReference
 
 ```xml
-<PackageReference Include="FluentNHibernate" Version="3.1.0" />
-<PackageReference Include="NHibernate" Version="5.4.6" />
+<PackageReference Include="FluentNHibernate" Version="3.4.0" />
+<PackageReference Include="NHibernate" Version="5.5.2" />
 ```
 
 ## 🔧 Quick Start
