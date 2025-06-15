@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentNHibernate.DAL", "FluentNHibernate.DAL.csproj", "{2B410FED-00D0-BE95-43D4-CCF51570A07F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B410FED-00D0-BE95-43D4-CCF51570A07F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B410FED-00D0-BE95-43D4-CCF51570A07F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B410FED-00D0-BE95-43D4-CCF51570A07F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B410FED-00D0-BE95-43D4-CCF51570A07F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77E2F591-B39E-45CE-93C0-9EA88EF58272}
+	EndGlobalSection
+EndGlobal
